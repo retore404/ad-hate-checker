@@ -106,40 +106,60 @@ class AdTracker {
     let adUrl = '';
     let advertiser = '';
 
+    // 広告主の情報を取得（優先順位順）
+    // 1. ytp-visit-advertiser-link__text から取得（最も確実）
+    const advertiserLinkText = document.querySelector('.ytp-visit-advertiser-link__text');
+    if (advertiserLinkText) {
+      advertiser = advertiserLinkText.textContent.trim();
+    }
+
+    // 2. 広告主訪問ボタンから取得
+    if (!advertiser) {
+      const visitAdvertiserButton = document.querySelector('.ytp-ad-visit-advertiser-button');
+      if (visitAdvertiserButton) {
+        advertiser = visitAdvertiserButton.textContent.trim();
+      }
+    }
+
+    // 3. シンプルな広告バッジテキストから取得
+    if (!advertiser) {
+      const adInfoElement = document.querySelector('.ytp-ad-simple-ad-badge-text');
+      if (adInfoElement) {
+        advertiser = adInfoElement.textContent.trim();
+      }
+    }
+
+    // 4. ビデオタイトルから広告情報を取得
+    if (!advertiser) {
+      const videoAd = document.querySelector('.ytp-ad-player-overlay-instream-info');
+      if (videoAd) {
+        const videoAdText = videoAd.textContent.trim();
+        if (videoAdText) {
+          advertiser = videoAdText;
+        }
+      }
+    }
+
     // 広告タイトルを取得
     const adTextElement = document.querySelector('.ytp-ad-text');
     if (adTextElement) {
       adTitle = adTextElement.textContent.trim();
     }
 
-    // 広告主の情報を取得
-    const adInfoElement = document.querySelector('.ytp-ad-simple-ad-badge-text');
-    if (adInfoElement) {
-      advertiser = adInfoElement.textContent.trim();
-    }
-
-    // 広告のリンクを取得
-    const visitAdvertiserButton = document.querySelector('.ytp-ad-visit-advertiser-button');
-    if (visitAdvertiserButton) {
-      advertiser = visitAdvertiserButton.textContent.trim();
-    }
-
     // 追加の広告情報
-    const adPreviewText = document.querySelector('.ytp-ad-preview-text');
-    if (adPreviewText) {
-      const previewInfo = adPreviewText.textContent.trim();
-      if (previewInfo && adTitle === '不明な広告') {
-        adTitle = previewInfo;
+    if (adTitle === '不明な広告') {
+      const adPreviewText = document.querySelector('.ytp-ad-preview-text');
+      if (adPreviewText) {
+        const previewInfo = adPreviewText.textContent.trim();
+        if (previewInfo) {
+          adTitle = previewInfo;
+        }
       }
     }
 
-    // ビデオタイトルから広告情報を取得
-    const videoAd = document.querySelector('.ytp-ad-player-overlay-instream-info');
-    if (videoAd) {
-      const videoAdText = videoAd.textContent.trim();
-      if (videoAdText) {
-        advertiser = videoAdText;
-      }
+    // 広告主がまだ見つからない場合、タイトルから取得を試みる
+    if (!advertiser && adTitle !== '不明な広告') {
+      advertiser = adTitle;
     }
 
     // 現在の動画URL

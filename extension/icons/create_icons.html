@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Icon Generator</title>
+</head>
+<body>
+  <h1>YouTube Ad Time Tracker - Icon Generator</h1>
+  <p>下のキャンバスを右クリックして「名前を付けて画像を保存」で保存してください</p>
+
+  <h2>16x16</h2>
+  <canvas id="icon16" width="16" height="16"></canvas>
+
+  <h2>48x48</h2>
+  <canvas id="icon48" width="48" height="48"></canvas>
+
+  <h2>128x128</h2>
+  <canvas id="icon128" width="128" height="128"></canvas>
+
+  <script>
+    function drawIcon(canvas, size) {
+      const ctx = canvas.getContext('2d');
+
+      // 背景
+      ctx.fillStyle = '#d32f2f';
+      ctx.fillRect(0, 0, size, size);
+
+      // 時計のアイコン
+      ctx.fillStyle = 'white';
+      ctx.strokeStyle = 'white';
+      ctx.lineWidth = size / 16;
+
+      // 円
+      const centerX = size / 2;
+      const centerY = size / 2;
+      const radius = size * 0.35;
+
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // 時計の針（短針）
+      ctx.beginPath();
+      ctx.moveTo(centerX, centerY);
+      ctx.lineTo(centerX + radius * 0.3, centerY - radius * 0.3);
+      ctx.stroke();
+
+      // 時計の針（長針）
+      ctx.beginPath();
+      ctx.moveTo(centerX, centerY);
+      ctx.lineTo(centerX, centerY - radius * 0.6);
+      ctx.stroke();
+    }
+
+    drawIcon(document.getElementById('icon16'), 16);
+    drawIcon(document.getElementById('icon48'), 48);
+    drawIcon(document.getElementById('icon128'), 128);
+  </script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Ad Time Tracker</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>📊 YouTube広告時間トラッカー</h1>
+      <p class="subtitle">広告で無駄にされた時間を可視化</p>
+    </header>
+
+    <div class="summary">
+      <div class="stat-card">
+        <div class="stat-label">総広告時間</div>
+        <div class="stat-value" id="totalTime">0分0秒</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">広告の種類</div>
+        <div class="stat-value" id="adCount">0種類</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">総視聴回数</div>
+        <div class="stat-value" id="totalViews">0回</div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button id="sortByTime" class="btn btn-primary active">時間順</button>
+      <button id="sortByCount" class="btn btn-primary">回数順</button>
+      <button id="clearData" class="btn btn-danger">データ削除</button>
+    </div>
+
+    <div class="ad-list-container">
+      <h2>広告ごとの集計</h2>
+      <div id="adList" class="ad-list">
+        <div class="empty-state">
+          まだ広告データがありません。<br>
+          YouTubeで動画を視聴すると、広告データが記録されます。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
